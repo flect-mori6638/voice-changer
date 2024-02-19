@@ -20,8 +20,10 @@ def downloadWeight(voiceChangerParams: VoiceChangerParams):
     rmvpe = voiceChangerParams.rmvpe
     rmvpe_onnx = voiceChangerParams.rmvpe_onnx
 
+    whisper_medium = voiceChangerParams.whisper_medium
+
     weight_files = [content_vec_500_onnx, hubert_base, hubert_base_jp, hubert_soft,
-                    nsf_hifigan, crepe_onnx_full, crepe_onnx_tiny, rmvpe]
+                    nsf_hifigan, crepe_onnx_full, crepe_onnx_tiny, rmvpe, whisper_medium]
 
     # file exists check (currently only for rvc)
     downloadParams = []
@@ -116,6 +118,15 @@ def downloadWeight(voiceChangerParams: VoiceChangerParams):
                 "url": "https://huggingface.co/wok000/weights_gpl/resolve/main/rmvpe/rmvpe_20231006.onnx",
                 "saveTo": rmvpe_onnx,
                 "position": 9,
+            }
+        )
+
+    if os.path.exists(whisper_medium) is False:
+        downloadParams.append(
+            {
+                "url": "https://huggingface.co/Taku-f/Whisper_Medium/resolve/main/medium.pt",
+                "saveTo": whisper_medium,
+                "position": 10,
             }
         )
 

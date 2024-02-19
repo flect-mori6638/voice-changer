@@ -63,7 +63,7 @@ def setupArgParser():
     parser.add_argument("--crepe_onnx_tiny", type=str, default="pretrain/crepe_onnx_tiny.onnx", help="path to crepe_onnx_tiny")
     parser.add_argument("--rmvpe", type=str, default="pretrain/rmvpe.pt", help="path to rmvpe")
     parser.add_argument("--rmvpe_onnx", type=str, default="pretrain/rmvpe.onnx", help="path to rmvpe onnx")
-
+    parser.add_argument("--whisper_medium", type=str, default="pretrain/medium.pt", help="path to whisper medium")
     return parser
 
 
@@ -105,6 +105,7 @@ voiceChangerParams = VoiceChangerParams(
     crepe_onnx_tiny=args.crepe_onnx_tiny,
     rmvpe=args.rmvpe,
     rmvpe_onnx=args.rmvpe_onnx,
+    whisper_medium=args.whisper_medium,
     sample_mode=args.sample_mode,
 )
 vcparams = VoiceChangerParamsManager.get_instance()

@@ -167,7 +167,7 @@ class VoiceChangerManager(ServerDeviceCallbacks):
             if params.voiceChangerType == "RVC":
                 from voice_changer.RVC.RVCModelSlotGenerator import RVCModelSlotGenerator  # 起動時にインポートするとパラメータが取れない。
 
-                slotInfo = RVCModelSlotGenerator.loadModel(params)
+                slotInfo = RVCModelSlotGenerator.loadModel(params) # moderu 
                 self.modelSlotManager.save_model_slot(params.slot, slotInfo)
             elif params.voiceChangerType == "MMVCv13":
                 from voice_changer.MMVCv13.MMVCv13ModelSlotGenerator import MMVCv13ModelSlotGenerator
@@ -205,7 +205,11 @@ class VoiceChangerManager(ServerDeviceCallbacks):
 
                 slotInfo = LLVCModelSlotGenerator.loadModel(params)
                 self.modelSlotManager.save_model_slot(params.slot, slotInfo)
-
+            
+            elif params.voiceChangerType == "ConsistencyVC":
+                from voice_changer.ConsistencyVC.ConsistencyVCModelSlotGenerator import ConsistencyVCModelSlotGenerator
+                slotInfo = ConsistencyVCModelSlotGenerator.loadModel(params)
+                self.modelSlotManager.save_model_slot(params.slot, slotInfo)
             logger.info(f"params, {params}")
 
     def get_info(self):
@@ -234,6 +238,7 @@ class VoiceChangerManager(ServerDeviceCallbacks):
         else:
             return {"status": "ERROR", "msg": "no model loaded"}
 
+    # VC
     def generateVoiceChanger(self, val: int | StaticSlot):
         slotInfo = self.modelSlotManager.get_slot_info(val)
         if slotInfo is None:
@@ -306,7 +311,13 @@ class VoiceChangerManager(ServerDeviceCallbacks):
             self.voiceChanger = VoiceChangerV2(self.params)
             self.voiceChanger.setModel(self.voiceChangerModel)
             pass
+        elif slotInfo.voiceChangerType == "ConsistencyVC":
+            logger.info("................ConsistencyVC")
+            from voice_changer.ConsistencyVC.ConsistencyVC import ConsistencyVC
 
+            self.voiceChangerModel = ConsistencyVC(self.params, slotInfo)
+            self.voiceChanger = VoiceChangerV2(self.params)
+            self.voiceChanger.setModel(self.voiceChangerModel)
         else:
             logger.info(f"[Voice Changer] unknown voice changer model: {slotInfo.voiceChangerType}")
             if hasattr(self, "voiceChangerModel"):

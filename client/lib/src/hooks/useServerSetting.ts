@@ -32,6 +32,8 @@ export const ModelFileKind = {
 
     llvcModel: "llvcModel",
     llvcConfig: "llvcConfig",
+
+    consistencyVC: "consistencyVCModel",
 } as const;
 export type ModelFileKind = (typeof ModelFileKind)[keyof typeof ModelFileKind];
 

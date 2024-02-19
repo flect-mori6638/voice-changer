@@ -1,5 +1,5 @@
 from typing import TypeAlias, Union
-from const import MAX_SLOT_NUM, MODEL_DIR_STATIC, DiffusionSVCInferenceType, EnumInferenceTypes, EmbedderType, StaticSlot, VoiceChangerType
+from const import MAX_SLOT_NUM, MODEL_DIR_STATIC, DiffusionSVCInferenceType, EnumInferenceTypes, EmbedderType, StaticSlot, VoiceChangerType, ConsistencyVCInferenceTypes
 
 from dataclasses import dataclass, asdict, field
 
@@ -140,6 +140,13 @@ class LLVCModelSlot(ModelSlot):
     modelFile: str = ""
     configFile: str = ""
 
+@dataclass
+class ConsistencyVCModelSlot(ModelSlot):
+    voiceChangerType: VoiceChangerType = "ConsistencyVC"
+    modelType: ConsistencyVCInferenceTypes = "whisper"
+    embedder: EmbedderType = "whisper"
+    modelFile: str = ""
+    samplingRate: int = 16000
 
 ModelSlots: TypeAlias = Union[
     ModelSlot,
@@ -151,6 +158,7 @@ ModelSlots: TypeAlias = Union[
     DiffusionSVCModelSlot,
     BeatriceModelSlot,
     LLVCModelSlot,
+    ConsistencyVCModelSlot
 ]
 
 
@@ -188,6 +196,9 @@ def loadSlotInfo(model_dir: str, slotIndex: int | StaticSlot) -> ModelSlots:
     elif slotInfo.voiceChangerType == "LLVC":
         slotInfoKey.extend(list(LLVCModelSlot.__annotations__.keys()))
         return LLVCModelSlot(**{k: v for k, v in jsonDict.items() if k in slotInfoKey})
+    elif slotInfo.voiceChangerType == "ConsistencyVC":
+        slotInfoKey.extend(list(ConsistencyVCModelSlot.__annotations__.keys()))
+        return ConsistencyVCModelSlot(**{k: v for k, v in jsonDict.items() if k in slotInfoKey})
     else:
         return ModelSlot()
 

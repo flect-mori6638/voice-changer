@@ -12,6 +12,7 @@ export const VoiceChangerType = {
     "Diffusion-SVC": "Diffusion-SVC",
     Beatrice: "Beatrice",
     LLVC: "LLVC",
+    ConsistencyVC: "ConsistencyVC",
     WebModel: "WebModel",
 } as const;
 export type VoiceChangerType = (typeof VoiceChangerType)[keyof typeof VoiceChangerType];
@@ -76,6 +77,12 @@ export const RVCModelType = {
     onnxRVCNono: "onnxRVCNono",
 } as const;
 export type RVCModelType = (typeof RVCModelType)[keyof typeof RVCModelType];
+
+export const ConsistencyVCModelType = {
+    whisperConsistencyVC: "whisperConsistencyVC",
+    ppgConsistencyVC: "ppgConsistencyVC",
+} as const;
+export type ConsistencyVCModelType = (typeof ConsistencyVCModelType)[keyof typeof ConsistencyVCModelType];
 
 export const ServerSettingKey = {
     passThrough: "passThrough",
@@ -316,7 +323,12 @@ export type WebModelSlot = ModelSlot & {
     samplingRate: number;
 };
 
-export type ModelSlotUnion = RVCModelSlot | MMVCv13ModelSlot | MMVCv15ModelSlot | SoVitsSvc40ModelSlot | DDSPSVCModelSlot | DiffusionSVCModelSlot | BeatriceModelSlot | LLVCModelSlot | WebModelSlot;
+export type ConsistencyVCModelSlot = ModelSlot & {
+    modelFile: string;
+    modelType: ConsistencyVCModelType;
+};
+
+export type ModelSlotUnion = RVCModelSlot | MMVCv13ModelSlot | MMVCv15ModelSlot | SoVitsSvc40ModelSlot | DDSPSVCModelSlot | DiffusionSVCModelSlot | BeatriceModelSlot | LLVCModelSlot | WebModelSlot | ConsistencyVCModelSlot;
 
 type ServerAudioDevice = {
     kind: "audioinput" | "audiooutput";
@@ -368,6 +380,10 @@ export type DiffusionSVCSampleModel = SampleModel & {
     numOfDiffLayers: number;
     numOfNativeLayers: number;
     maxKStep: number;
+};
+
+export type ConsistencyVCSampleModel = SampleModel & {
+    featureUrl: string;
 };
 
 export const DefaultServerSetting: ServerInfo = {

@@ -14,6 +14,7 @@ VoiceChangerType: TypeAlias = Literal[
     "Diffusion-SVC",
     "Beatrice",
     "LLVC",
+    "ConsistencyVC"
 ]
 
 StaticSlot: TypeAlias = Literal["Beatrice-JVS",]
@@ -56,7 +57,7 @@ def getFrontendPath():
     return frontend_path
 
 
-EmbedderType: TypeAlias = Literal["hubert_base", "contentvec", "hubert-base-japanese"]
+EmbedderType: TypeAlias = Literal["hubert_base", "contentvec", "hubert-base-japanese", "whisper"]
 
 
 class EnumInferenceTypes(Enum):
@@ -70,8 +71,15 @@ class EnumInferenceTypes(Enum):
     onnxRVC = "onnxRVC"
     onnxRVCNono = "onnxRVCNono"
 
+ConsistencyVCInferenceTypes: TypeAlias = Literal[
+    "ppg",
+    "whisper",
+]
+
+
 
 DiffusionSVCInferenceType: TypeAlias = Literal["combo",]
+
 
 
 PitchExtractorType: TypeAlias = Literal[

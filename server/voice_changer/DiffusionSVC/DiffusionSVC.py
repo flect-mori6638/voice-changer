@@ -257,7 +257,8 @@ class DiffusionSVC(VoiceChangerModel):
                 protect,
                 skip_diffusion=self.settings.skipDiffusion,
             )
-            result = audio_out.detach().cpu().numpy()
+            audio_out.detach().cpu().numpy()
+            result = (audio_out.detach().cpu().numpy() * 32767.5).astype(np.int16)
             return result
         except DeviceCannotSupportHalfPrecisionException as e:  # NOQA
             logger.warn(
